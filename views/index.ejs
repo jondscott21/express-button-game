@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Index</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+  <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type ="text/javascript">
+      $(document).ready(function (){
+          const socket = io.connect();
+
+          $('#counter').on('click', function (){
+              socket.emit("button_click");
+          });
+          $('#reset').on('click', function (){
+              socket.emit("reset_click");
+          });
+          socket.on('button_push', function (data) {
+              $('#count_num').html('The button has been pushed ' + data.response + ' time(s)');
+          });
+          socket.on('reset_push', function (data) {
+              $('#count_num').html('The button has been pushed ' + data.response + ' time(s)');
+          });
+      });
+  </script>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="input-field">
+      <h3 id="count_num"></h3>
+      <p>Push the button to update the count!</p>
+      <button class="btn blue" id="counter">Push the epic button</button><br>
+      <button class="btn red" id="reset">Reset count</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
